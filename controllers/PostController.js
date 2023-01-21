@@ -51,25 +51,24 @@ export const getOne = async (req, res) => {
         PostModel.findOneAndUpdate({
                 _id: postId,
             }, {
-            //функция инкрементирования монго
+                //функция инкрементирования монго
                 $inc: {viewsCount: 1}
             }, {
                 returnDocument: 'after'
             },
             (err, doc) => {
-                if(err){
+                if (err) {
                     console.log(err)
                     return res.status(500).json({
                         message: 'Не удалось вернуть статью'
                     })
                 }
 
-                if(!doc){
+                if (!doc) {
                     return res.status(404).json({
                         message: 'Статья не найдена'
                     })
                 }
-
 
 
                 res.json(post)
@@ -94,14 +93,14 @@ export const remove = async (req, res) => {
         PostModel.findOneAndDelete({
             _id: postId
         }, (err, doc) => {
-            if(err){
+            if (err) {
                 console.log(err)
                 return res.status(500).json({
                     message: 'Не удалось удалить статью'
                 })
             }
 
-            if(!doc){
+            if (!doc) {
                 return res.status(404).json({
                     message: 'Статья не найдена'
                 })
@@ -125,6 +124,7 @@ export const remove = async (req, res) => {
 export const create = async (req, res) => {
     try {
 
+
         //подготавливаем (создаем) документ
         const doc = new PostModel({
             title: req.body.title,
@@ -132,6 +132,7 @@ export const create = async (req, res) => {
             imageUrl: req.body.imageUrl,
             tags: req.body.tags,
             user: req.userId,
+            comments: req.body.comments,
         })
 
         //сохраняем документ
